@@ -1,0 +1,67 @@
+﻿@model IEnumerable<MvcEfCore.Models.LichChuyenBay>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Share/_AdminLayout.cshtml";
+
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ChuyenBayID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NgayGioBay)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GiaVe)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ThoiGianBay)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SoGheHang1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SoGheHang2)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ChuyenBayID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NgayGioBay)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GiaVe)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ThoiGianBay)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SoGheHang1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SoGheHang2)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ChuyenBayID">Edit</a> 
+                <a asp-action="Details" asp-route-id="@item.ChuyenBayID">Details</a> 
+                <a asp-action="Delete" asp-route-id="@item.ChuyenBayID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

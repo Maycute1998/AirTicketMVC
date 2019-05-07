@@ -1,0 +1,116 @@
+﻿@model MvcEfCore.Models.PhieuDatVe
+
+@{
+    ViewData["Title"] = "Create";
+}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+
+<h2>Phiếu đặt vé chuyến bay @ViewBag.IdChuyenBay</h2>
+<hr />
+
+@*<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>*@
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ChuyenBayID" value="@ViewBag.IdChuyenBay" />
+            <input type="hidden" asp-for="KhachHang.KhachHangID" />
+
+            <div class="form-group">
+                <label asp-for="HangID" id="" class="control-label">Chọn hạng vé</label>
+                <select asp-for="HangID" id="phu" class="form-control" asp-items="@ViewBag.HangID"></select>
+            </div>
+            @*//sao bat dc event cua cai nay anh  Bat even change cua no? ok doi anh xiu vo tran r :)) doi anh ty*@
+            @*//Gắn id vô để bắt event nó, khi select thì nó hiện alert đơn giản chẳng hạn//*@
+            @*<div class="form-check">
+                   <label class="form-check-label control-label">
+                       <input checked type="radio" class="form-check-input" name="optra[]">Hạng 1:
+                   </label>
+                </div>
+                <div class="form-check">
+                    <label class="form-check-label control-label">
+                        <input type="radio" class="form-check-input" name="optra[]">Hạng 2: @ViewBag.GiaVe[1]
+                    </label>
+                </div>*@
+            @**@
+            @*<div class="form-group">
+                    <label asp-for="KhachHangID" class="control-label"></label>
+                    <select asp-for="KhachHangID" class="form-control" asp-items="ViewBag.KhachHangID"></select>
+                </div>*@
+            @*<div class="form-group">
+                    <label asp-for="ChuyenBayID" class="control-label"></label>
+                    <select asp-for="ChuyenBayID" class="form-control" asp-items="ViewBag.ChuyenBayID"></select>
+                </div>*@
+            <div class="form-group">
+                <label asp-for="GiaTien" class="control-label">Giá tiền</label>
+                <input id="giaTien" asp-for="GiaTien" class="form-control" value="@ViewBag.GiaVeHang01" disabled />
+
+            </div>
+            <div class="form-group">
+                <label asp-for="KhachHang.TenKhachHang" class="control-label"></label>
+                <input asp-for="KhachHang.TenKhachHang" class="form-control" />
+                <span asp-validation-for="KhachHang.TenKhachHang" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="KhachHang.DiaChi" class="control-label"></label>
+                <input asp-for="KhachHang.DiaChi" class="form-control" />
+                <span asp-validation-for="KhachHang.DiaChi" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="KhachHang.SDT" class="control-label"></label>
+                <input asp-for="KhachHang.SDT" class="form-control" />
+                <span asp-validation-for="KhachHang.SDT" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="KhachHang.CMND" class="control-label"></label>
+                <input asp-for="KhachHang.CMND" class="form-control" />
+                <span asp-validation-for="KhachHang.CMND" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Đặt vé" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    @*<script src="~/plugins/mustache.min.js"></script>
+        <script src="~/controllers/homeController.js"></script>*@
+
+}
+<script>
+    $('#phu').on('change', function () {
+
+        @*foreach (HangVe i in @ViewBag.HangVe)
+        {
+            var a = $('#phu').val();
+            if (i == a)
+            {
+                document.getElementById("giaTien").value = i.TiLeGia * @ViewBag.GiaVe;
+            }
+        }*@
+
+        //alert();
+        //var data = { id: $('#phu').val()} ;
+        //alert($('#phu').val());
+        $.ajax({
+            url: '/DatVe/Update',
+            contentType: "application/json",
+            type: 'POST',
+            //dataType: 'json',
+            data: JSON.stringify({ 'id': $('#phu').val() }),
+            success: function (response) {
+                //alert(response.status);
+                document.getElementById("giaTien").value = response.status * @ViewBag.GiaVe/100 + @ViewBag.GiaVe
+            }
+        })
+    });
+
+</script>
